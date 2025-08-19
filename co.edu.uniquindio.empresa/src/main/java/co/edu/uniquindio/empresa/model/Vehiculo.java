@@ -13,27 +13,20 @@ public abstract class Vehiculo {
         this.color = color;
     }
 
-    public String getPlaca() {
-        return placa;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getColor() {
-        return color;
-    }
+    public String getPlaca() { return placa; }
+    public String getModelo() { return modelo; }
+    public String getMarca() { return marca; }
+    public String getColor() { return color; }
 
     @Override
     public String toString() {
-        return "Placa: " + placa + ", Modelo: " + modelo + ", Marca: " + marca + ", Color: " + color;
+        return marca + " " + modelo + " (" + placa + "), color " + color;
     }
 }
+
+
+
+
 
 
 
