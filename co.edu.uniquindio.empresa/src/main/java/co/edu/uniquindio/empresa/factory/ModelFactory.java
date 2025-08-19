@@ -26,6 +26,17 @@ public class ModelFactory {
         return instance;
     }
 
+    /*
+     * BLOQUE TRY-CATCH
+     *
+     * Se utiliza para intentar convertir el valor ingresado por el usuario a un número (double).
+     * - try: contiene el código que puede generar un error (Double.parseDouble(input)).
+     * - catch: se ejecuta si ocurre una excepción (NumberFormatException),
+     *          mostrando un mensaje de error y evitando que el programa se detenga.
+     *
+     * Permite manejar entradas inválidas de manera segura y continuar el flujo del programa.
+     */
+
     public void iniciarPrograma()
     {
         String[] opciones = {
@@ -46,17 +57,20 @@ public class ModelFactory {
                 case 1 -> agregarPropietarioManual();
                 case 2 -> calcularTotalPasajeros();
                 case 3 -> {
-                    String input = JOptionPane.showInputDialog("Ingrese el peso mínimo (kg):");
-                    if (input != null && !input.isEmpty()) {
+                    String entrada = JOptionPane.showInputDialog("Ingrese el peso mínimo (kg):");
+                    if (entrada != null && !entrada.isEmpty()) {
                         try {
-                            double pesoMinimo = Double.parseDouble(input);
+                            double pesoMinimo = Double.parseDouble(entrada);
                             propietariosConCargaMayor(pesoMinimo);
                         } catch (NumberFormatException e) {
                             JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
                         }
                     }
                 }
-                default -> {}
+                default ->
+                {
+
+                }
             }
         } while (opcion != 4);
     }
@@ -69,7 +83,7 @@ public class ModelFactory {
         empresa.agregarPropietario(pc1);
 
         VehiculoCarga vc2 = new VehiculoCarga("KII345", "2018","Chevrolet","Verde",10000,4);
-        Propietario pc2 = new Propietario("Adrian","964", "adrian@gmail.com","366242136", vc2);
+        Propietario pc2 = new Propietario("Adrian Roman","964", "adrian@gmail.com","366242136", vc2);
         empresa.agregarPropietario(pc2);
 
         VehiculoPasajeros vp1 = new VehiculoPasajeros("PXY789", "2021", "Chevrolet", "Rojo", 45, 30);
@@ -88,11 +102,35 @@ public class ModelFactory {
     }
 
     /** Permite agregar un propietario y su vehículo manualmente mediante JOption */
+
+
     private void agregarPropietarioManual() {
         String nombre = JOptionPane.showInputDialog("Nombre del propietario:");
         String id = JOptionPane.showInputDialog("Identificación:");
         String email = JOptionPane.showInputDialog("Email:");
         String celular = JOptionPane.showInputDialog("Celular:");
+
+        /*
+         * SELECCIÓN DEL TIPO DE VEHÍCULO
+         *
+         * Muestra un cuadro de diálogo con dos opciones: "Carga" y "Pasajeros".
+         * Devuelve un número según la selección:
+         *   0 -> Carga -> crea VehiculoCarga
+         *   1 -> Pasajeros -> crea VehiculoPasajeros
+         * Luego se asocia el vehículo al propietario y se agrega a la empresa.
+         *
+         * int opcion = JOptionPane.showOptionDialog(
+        componentePadre,      // normalmente null si quieres centrarlo
+        mensaje,              // texto que aparece en la ventana
+        titulo,               // título de la ventana
+        tipoDeOpciones,       // por ejemplo, JOptionPane.DEFAULT_OPTION
+        tipoDeMensaje,        // icono de la ventana (QUESTION_MESSAGE, INFORMATION_MESSAGE, etc.)
+        iconoPersonalizado,   // null si no quieres icono personalizado
+        opciones,             // arreglo de Strings que serán los botones
+        opcionPorDefecto      // botón seleccionado por defecto
+
+
+         */
 
         String[] tipos = {"Carga", "Pasajeros"};
         int tipo = JOptionPane.showOptionDialog(null, "Tipo de vehículo:", "Vehículo",
