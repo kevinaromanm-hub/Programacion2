@@ -107,7 +107,7 @@ public class ModelFactory {
     private void agregarPropietarioManual() {
         String nombre = JOptionPane.showInputDialog("Nombre del propietario:");
         String id = JOptionPane.showInputDialog("Identificación:");
-        String email = JOptionPane.showInputDialog("Email:");
+        String correo = JOptionPane.showInputDialog("Correo:");
         String celular = JOptionPane.showInputDialog("Celular:");
 
         /*
@@ -152,7 +152,7 @@ public class ModelFactory {
             vehiculo = new VehiculoPasajeros(placa, modelo, marca, color, maxPasajeros, pasajerosHoy);
         }
 
-        Propietario propietario = new Propietario(nombre, id, email, celular, vehiculo);
+        Propietario propietario = new Propietario(nombre, id, correo, celular, vehiculo);
         empresa.agregarPropietario(propietario);
         mostrarPropietarios();
     }
