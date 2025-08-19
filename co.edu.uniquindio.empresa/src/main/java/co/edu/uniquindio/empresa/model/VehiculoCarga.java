@@ -10,10 +10,14 @@ public class VehiculoCarga extends Vehiculo {
         this.numeroEjes = numeroEjes;
     }
 
-    public double getCapacidadCarga() { return capacidadCarga; }
+    public double getCapacidadCarga()
+    {
+        return capacidadCarga;
+    }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return super.toString() + " [Carga: " + capacidadCarga + "kg, Ejes: " + numeroEjes + "]";
     }
 }

@@ -3,22 +3,31 @@ package co.edu.uniquindio.empresa.factory;
 import co.edu.uniquindio.empresa.model.*;
 import javax.swing.*;
 
+
+/**
+ * Singleton que controla la creación de propietarios y vehículos,
+ * inicialización de datos de prueba y cálculos de pasajeros y carga.
+ */
 public class ModelFactory {
     private static ModelFactory instance;
     private EmpresaTransporte empresa;
 
-    private ModelFactory() {
+    private ModelFactory()
+    {
         empresa = new EmpresaTransporte("La Carreta");
     }
 
-    public static ModelFactory getInstance() {
-        if (instance == null) {
+    public static ModelFactory getInstance()
+    {
+        if (instance == null)
+        {
             instance = new ModelFactory();
         }
         return instance;
     }
 
-    public void iniciarPrograma() {
+    public void iniciarPrograma()
+    {
         String[] opciones = {
                 "Inicializar datos de prueba",
                 "Agregar propietario manualmente",
@@ -53,27 +62,32 @@ public class ModelFactory {
     }
 
     private void inicializarDatosDePrueba() {
-        empresa.getPropietarios().clear(); // Limpiar antes de inicializar
 
-        VehiculoCarga vc1 = new VehiculoCarga("C123AB", "2022", "Volvo", "Blanco", 12000, 4);
-        Propietario pc1 = new Propietario("Carlos Pérez", "123", "carlos@mail.com", "3001234567", vc1);
+
+        VehiculoCarga vc1 = new VehiculoCarga("CAB123", "2022", "Volvo", "Blanco", 12000, 4);
+        Propietario pc1 = new Propietario("Carlos Pérez", "123", "carlos@gmail.com", "3001234567", vc1);
         empresa.agregarPropietario(pc1);
 
-        VehiculoPasajeros vp1 = new VehiculoPasajeros("P789XY", "2021", "Chevrolet", "Rojo", 45, 30);
-        Propietario pp1 = new Propietario("Ana Gómez", "789", "ana@mail.com", "3029876543", vp1);
+        VehiculoCarga vc2 = new VehiculoCarga("KII345", "2018","Chevrolet","Verde",10000,4);
+        Propietario pc2 = new Propietario("Adrian","964", "adrian@gmail.com","366242136", vc2);
+        empresa.agregarPropietario(pc2);
+
+        VehiculoPasajeros vp1 = new VehiculoPasajeros("PXY789", "2021", "Chevrolet", "Rojo", 45, 30);
+        Propietario pp1 = new Propietario("Ana Gómez", "789", "ana@gmail.com", "3029876543", vp1);
         empresa.agregarPropietario(pp1);
 
-        VehiculoPasajeros vp2 = new VehiculoPasajeros("P321LM", "2020", "Mercedes", "Azul", 30, 20);
-        Propietario pp2 = new Propietario("Juan Torres", "321", "juan@mail.com", "3031112233", vp2);
+        VehiculoPasajeros vp2 = new VehiculoPasajeros("PLM321", "2020", "Mercedes", "Azul", 30, 20);
+        Propietario pp2 = new Propietario("Juan Torres", "321", "juan@gmail.com", "3031112233", vp2);
         empresa.agregarPropietario(pp2);
 
-        VehiculoPasajeros vp3 = new VehiculoPasajeros("P654QR", "2023", "Ford", "Negro", 20, 15);
-        Propietario pp3 = new Propietario("Luisa Martínez", "654", "luisa@mail.com", "3044445566", vp3);
+        VehiculoPasajeros vp3 = new VehiculoPasajeros("PQR654", "2023", "Ford", "Negro", 20, 15);
+        Propietario pp3 = new Propietario("Luisa Martínez", "654", "luisa@gmail.com", "3044445566", vp3);
         empresa.agregarPropietario(pp3);
 
         mostrarPropietarios();
     }
 
+    /** Permite agregar un propietario y su vehículo manualmente mediante JOption */
     private void agregarPropietarioManual() {
         String nombre = JOptionPane.showInputDialog("Nombre del propietario:");
         String id = JOptionPane.showInputDialog("Identificación:");
@@ -105,6 +119,40 @@ public class ModelFactory {
         mostrarPropietarios();
     }
 
+
+
+    /*
+
+ * StringBuilder se utiliza para construir mensajes dinámicos de texto de manera
+ * eficiente, evitando crear múltiples objetos String al concatenar.
+ *
+ * MÉTODOS PRINCIPALES USADOS:
+ *   - append(String s): agrega texto o información de objetos al final.
+ *       Ejemplo: sb.append("Propietario: ").append(p.getNombre());
+ *   - toString(): convierte el contenido de StringBuilder en un String
+ *       para mostrarlo en consola o JOptionPane.
+ *
+ * IMPLEMENTACIÓN EN EL PROYECTO:
+ *   1. mostrarPropietarios()
+ *       - Se crea un StringBuilder con un título inicial.
+ *       - Se recorre la lista de propietarios y se agrega cada uno con append().
+ *       - Se agregan saltos de línea ("\n\n") para separar los registros.
+ *       - Se convierte a String con toString() y se muestra en ventana.
+ *
+ *   2. calcularTotalPasajeros()
+ *       - Se construye un reporte de pasajeros transportados hoy.
+ *       - Cada vehículo de pasajeros agrega su información con append().
+ *       - Se añade el total al final y se muestra con toString().
+ *
+ *   3. propietariosConCargaMayor(double peso)
+ *       - Se lista únicamente propietarios con vehículos de carga que superen el peso dado.
+ *       - Cada coincidencia se agrega con append().
+ *       - Si no hay coincidencias, se agrega un mensaje indicándolo.
+ *       - Resultado final mostrado por consola y en ventana usando toString().
+
+     */
+
+    /** Calcula y muestra el total de pasajeros transportados hoy. */
     private void calcularTotalPasajeros() {
         int total = 0;
         StringBuilder detalle = new StringBuilder("Pasajeros transportados hoy:\n\n");
@@ -119,6 +167,7 @@ public class ModelFactory {
         detalle.append("\nTotal de pasajeros: ").append(total);
         JOptionPane.showMessageDialog(null, detalle.toString());
     }
+    /** Lista los propietarios cuyo vehículo de carga supera un peso dado. */
 
     public void propietariosConCargaMayor(double pesoMinimo) {
         StringBuilder sb = new StringBuilder("Propietarios con vehículos que superan " + pesoMinimo + " kg:\n\n");

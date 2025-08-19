@@ -10,12 +10,19 @@ public class VehiculoPasajeros extends Vehiculo {
         this.pasajerosHoy = pasajerosHoy;
     }
 
-    public int getMaxPasajeros() { return maxPasajeros; }
-    public int getPasajerosHoy() { return pasajerosHoy; }
+    public int getMaxPasajeros()
+    {
+        return maxPasajeros;
+    }
+    public int getPasajerosHoy()
+    {
+        return pasajerosHoy;
+    }
     public void setPasajerosHoy(int pasajerosHoy) { this.pasajerosHoy = pasajerosHoy; }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return super.toString() + " [Pasajeros máx: " + maxPasajeros + ", Hoy: " + pasajerosHoy + "]";
     }
 }

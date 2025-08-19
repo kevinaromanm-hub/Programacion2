@@ -15,14 +15,30 @@ public class Propietario {
         this.vehiculo = vehiculo;
     }
 
-    public String getNombre() { return nombre; }
-    public String getIdentificacion() { return identificacion; }
-    public String getEmail() { return email; }
-    public String getCelular() { return celular; }
-    public Vehiculo getVehiculo() { return vehiculo; }
+    public String getNombre()
+    {
+        return nombre;
+    }
+    public String getIdentificacion()
+    {
+        return identificacion;
+    }
+    public String getEmail()
+    {
+        return email;
+    }
+    public String getCelular()
+    {
+        return celular;
+    }
+    public Vehiculo getVehiculo()
+    {
+        return vehiculo;
+    }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Propietario: " + nombre + " (" + identificacion + ")\n" +
                 "Email: " + email + ", Celular: " + celular + "\n" +
                 "Vehículo: " + vehiculo;
