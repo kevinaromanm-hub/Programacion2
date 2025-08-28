@@ -1,5 +1,6 @@
 package co.edu.uniquindio.transporte;
 
+import co.edu.uniquindio.transporte.builder.PropietarioBuilder;
 import co.edu.uniquindio.transporte.factory.ModelFactory;
 import co.edu.uniquindio.transporte.model.Propietario;
 import co.edu.uniquindio.transporte.model.VehiculoCarga;
@@ -45,7 +46,9 @@ public class Main {
                             "19. Salir"
             );
 
-            if (opcion == null) break;
+            if (opcion == null) {
+                break;
+            }
 
             switch (opcion) {
                 case "1" -> { // Listar Propietarios
@@ -54,29 +57,111 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "No hay propietarios.");
                     } else {
                         StringBuilder sb = new StringBuilder("Propietarios:\n");
-                        for (Propietario p : propietarios) sb.append(p).append("\n");
+                        for (Propietario p : propietarios) {
+                            sb.append(p).append("\n");
+                        }
                         JOptionPane.showMessageDialog(null, sb.toString());
                     }
                 }
-                case "2" -> { // Crear Propietario
-                    String nombre = JOptionPane.showInputDialog("Nombre:");
-                    String id = JOptionPane.showInputDialog("Número de identificación:");
-                    String email = JOptionPane.showInputDialog("Email:");
-                    String celular = JOptionPane.showInputDialog("Número de celular:");
-                    int edad = Integer.parseInt(JOptionPane.showInputDialog("Edad:"));
-                    boolean ok = modelFactory.agregarPropietario(nombre, id, email, celular, edad);
+
+                case "2" -> { // Crear Propietario con Builder
+                    PropietarioBuilder builder = new PropietarioBuilder();
+
+                    String nombre = JOptionPane.showInputDialog("Nombre (opcional):");
+                    if (nombre != null && !nombre.isEmpty()) {
+                        builder.conNombre(nombre);
+                    }
+
+                    String id = JOptionPane.showInputDialog("Número de identificación (opcional):");
+                    if (id != null && !id.isEmpty()) {
+                        builder.conNumeroIdentificacion(id);
+                    }
+
+                    String email = JOptionPane.showInputDialog("Email (opcional):");
+                    if (email != null && !email.isEmpty()) {
+                        builder.conEmail(email);
+                    }
+
+                    String celular = JOptionPane.showInputDialog("Número de celular (opcional):");
+                    if (celular != null && !celular.isEmpty()) {
+                        builder.conNumeroCelular(celular);
+                    }
+
+                    String edadStr = JOptionPane.showInputDialog("Edad (opcional):");
+                    if (edadStr != null && !edadStr.isEmpty()) {
+                        try {
+                            int edad = Integer.parseInt(edadStr);
+                            builder.conEdad(edad);
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Edad inválida, se ignorará.");
+                        }
+                    }
+
+                    Propietario nuevo = builder.construir();
+                    boolean ok = modelFactory.agregarPropietario(
+                            nuevo.getNombre(),
+                            nuevo.getNumeroIdentificacion(),
+                            nuevo.getEmail(),
+                            nuevo.getNumeroCelular(),
+                            nuevo.getEdad()
+                    );
+
                     JOptionPane.showMessageDialog(null, ok ? "Propietario creado." : "Ya existe un propietario con ese ID.");
                 }
-                case "3" -> { // Actualizar Propietario
+
+                case "3" -> { // Actualizar Propietario con Builder
                     String idActual = JOptionPane.showInputDialog("ID actual del propietario:");
-                    String nombre = JOptionPane.showInputDialog("Nuevo nombre:");
-                    String idNuevo = JOptionPane.showInputDialog("Nuevo ID:");
-                    String email = JOptionPane.showInputDialog("Nuevo email:");
-                    String celular = JOptionPane.showInputDialog("Nuevo celular:");
-                    int edad = Integer.parseInt(JOptionPane.showInputDialog("Nueva edad:"));
-                    boolean ok = modelFactory.actualizarPropietario(nombre, idActual, idNuevo, email, celular, edad);
-                    JOptionPane.showMessageDialog(null, ok ? "Propietario actualizado." : "No se encontró el propietario.");
+
+                    Propietario propietarioExistente = modelFactory.obtenerPropietario(idActual);
+                    if (propietarioExistente == null) {
+                        JOptionPane.showMessageDialog(null, "No se encontró el propietario.");
+                    } else {
+                        PropietarioBuilder builder = new PropietarioBuilder();
+
+                        String nombre = JOptionPane.showInputDialog("Nuevo nombre (opcional):");
+                        if (nombre != null && !nombre.isEmpty()) {
+                            builder.conNombre(nombre);
+                        }
+
+                        String idNuevo = JOptionPane.showInputDialog("Nuevo ID (opcional):");
+                        if (idNuevo != null && !idNuevo.isEmpty()) {
+                            builder.conNumeroIdentificacion(idNuevo);
+                        }
+
+                        String email = JOptionPane.showInputDialog("Nuevo email (opcional):");
+                        if (email != null && !email.isEmpty()) {
+                            builder.conEmail(email);
+                        }
+
+                        String celular = JOptionPane.showInputDialog("Nuevo celular (opcional):");
+                        if (celular != null && !celular.isEmpty()) {
+                            builder.conNumeroCelular(celular);
+                        }
+
+                        String edadStr = JOptionPane.showInputDialog("Nueva edad (opcional):");
+                        if (edadStr != null && !edadStr.isEmpty()) {
+                            try {
+                                int edad = Integer.parseInt(edadStr);
+                                builder.conEdad(edad);
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(null, "Edad inválida, se ignorará.");
+                            }
+                        }
+
+                        Propietario actualizado = builder.construir();
+                        boolean ok = modelFactory.actualizarPropietario(
+                                actualizado.getNombre() != null ? actualizado.getNombre() : propietarioExistente.getNombre(),
+                                idActual,
+                                actualizado.getNumeroIdentificacion() != null ? actualizado.getNumeroIdentificacion() : propietarioExistente.getNumeroIdentificacion(),
+                                actualizado.getEmail() != null ? actualizado.getEmail() : propietarioExistente.getEmail(),
+                                actualizado.getNumeroCelular() != null ? actualizado.getNumeroCelular() : propietarioExistente.getNumeroCelular(),
+                                actualizado.getEdad() != 0 ? actualizado.getEdad() : propietarioExistente.getEdad()
+                        );
+
+                        JOptionPane.showMessageDialog(null, ok ? "Propietario actualizado." : "No se pudo actualizar.");
+                    }
                 }
+
                 case "4" -> { // Eliminar Propietario
                     String id = JOptionPane.showInputDialog("ID del propietario a eliminar:");
                     boolean ok = modelFactory.eliminarPropietario(id);
@@ -86,13 +171,17 @@ public class Main {
                 // === Vehículos de Carga ===
                 case "5" -> {
                     List<VehiculoCarga> lista = modelFactory.listarVehiculosCarga();
-                    if (lista.isEmpty()) JOptionPane.showMessageDialog(null, "No hay vehículos de carga.");
-                    else {
+                    if (lista.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No hay vehículos de carga.");
+                    } else {
                         StringBuilder sb = new StringBuilder("Vehículos de Carga:\n");
-                        for (VehiculoCarga v : lista) sb.append(v).append("\n");
+                        for (VehiculoCarga v : lista) {
+                            sb.append(v).append("\n");
+                        }
                         JOptionPane.showMessageDialog(null, sb.toString());
                     }
                 }
+
                 case "6" -> {
                     String placa = JOptionPane.showInputDialog("Placa:");
                     String modelo = JOptionPane.showInputDialog("Modelo:");
@@ -103,6 +192,7 @@ public class Main {
                     boolean ok = modelFactory.agregarVehiculoCarga(new VehiculoCarga(placa, modelo, marca, color, capacidad, ejes));
                     JOptionPane.showMessageDialog(null, ok ? "Vehículo de carga creado." : "Ya existe un vehículo de carga con esa placa.");
                 }
+
                 case "7" -> {
                     String placaActual = JOptionPane.showInputDialog("Placa actual:");
                     String placa = JOptionPane.showInputDialog("Nueva placa:");
@@ -114,6 +204,7 @@ public class Main {
                     boolean ok = modelFactory.actualizarVehiculoCarga(placaActual, placa, modelo, marca, color, capacidad, ejes);
                     JOptionPane.showMessageDialog(null, ok ? "Vehículo actualizado." : "No se encontró el vehículo.");
                 }
+
                 case "8" -> {
                     String placa = JOptionPane.showInputDialog("Placa a eliminar:");
                     boolean ok = modelFactory.eliminarVehiculoCarga(placa);
@@ -123,13 +214,17 @@ public class Main {
                 // === Vehículos de Pasajero ===
                 case "9" -> {
                     List<VehiculoPasajero> lista = modelFactory.listarVehiculosPasajero();
-                    if (lista.isEmpty()) JOptionPane.showMessageDialog(null, "No hay vehículos de pasajero.");
-                    else {
+                    if (lista.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No hay vehículos de pasajero.");
+                    } else {
                         StringBuilder sb = new StringBuilder("Vehículos de Pasajero:\n");
-                        for (VehiculoPasajero v : lista) sb.append(v).append("\n");
+                        for (VehiculoPasajero v : lista) {
+                            sb.append(v).append("\n");
+                        }
                         JOptionPane.showMessageDialog(null, sb.toString());
                     }
                 }
+
                 case "10" -> {
                     String placa = JOptionPane.showInputDialog("Placa:");
                     String modelo = JOptionPane.showInputDialog("Modelo:");
@@ -139,6 +234,7 @@ public class Main {
                     boolean ok = modelFactory.agregarVehiculoPasajero(new VehiculoPasajero(placa, modelo, marca, color, maxPas));
                     JOptionPane.showMessageDialog(null, ok ? "Vehículo de pasajero creado." : "Ya existe un vehículo de pasajero con esa placa.");
                 }
+
                 case "11" -> {
                     String placaActual = JOptionPane.showInputDialog("Placa actual:");
                     String placa = JOptionPane.showInputDialog("Nueva placa:");
@@ -149,6 +245,7 @@ public class Main {
                     boolean ok = modelFactory.actualizarVehiculoPasajero(placaActual, placa, modelo, marca, color, maxPas);
                     JOptionPane.showMessageDialog(null, ok ? "Vehículo actualizado." : "No se encontró el vehículo.");
                 }
+
                 case "12" -> {
                     String placa = JOptionPane.showInputDialog("Placa a eliminar:");
                     boolean ok = modelFactory.eliminarVehiculoPasajero(placa);
@@ -169,6 +266,7 @@ public class Main {
                     String info = modelFactory.buscarVehiculoPorPlaca(placa);
                     JOptionPane.showMessageDialog(null, info);
                 }
+
                 case "15" -> {
                     String nombre = JOptionPane.showInputDialog("Nombre del propietario:");
                     String info = modelFactory.buscarPropietarioNombre(nombre);
@@ -179,22 +277,28 @@ public class Main {
                 case "16" -> {
                     double peso = Double.parseDouble(JOptionPane.showInputDialog("Peso mínimo (kg):"));
                     List<Propietario> lista = modelFactory.propietariosPorPeso(peso);
-                    if (lista.isEmpty()) JOptionPane.showMessageDialog(null, "Ningún propietario supera ese peso con sus vehículos de carga asociados.");
-                    else {
+                    if (lista.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ningún propietario supera ese peso con sus vehículos de carga asociados.");
+                    } else {
                         StringBuilder sb = new StringBuilder("Propietarios con vehículos > " + peso + " kg:\n");
-                        for (Propietario p : lista) sb.append(p).append("\n");
+                        for (Propietario p : lista) {
+                            sb.append(p).append("\n");
+                        }
                         JOptionPane.showMessageDialog(null, sb.toString());
                     }
                 }
+
                 case "17" -> {
                     String placa = JOptionPane.showInputDialog("Placa del vehículo de pasajeros:");
                     int total = modelFactory.pasajerosPorVehiculo(placa);
                     JOptionPane.showMessageDialog(null, "Número de pasajeros transportados (capacidad): " + total);
                 }
+
                 case "18" -> {
                     int total = modelFactory.contarPropietariosMayores40();
                     JOptionPane.showMessageDialog(null, "Propietarios mayores de 40: " + total);
                 }
+
                 case "19" -> System.exit(0);
 
                 default -> JOptionPane.showMessageDialog(null, "Opción no válida.");

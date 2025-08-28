@@ -27,3 +27,4 @@ public abstract class Vehiculo {
         return "Placa: " + placa + ", Modelo: " + modelo + ", Marca: " + marca + ", Color: " + color;
     }
 }
+

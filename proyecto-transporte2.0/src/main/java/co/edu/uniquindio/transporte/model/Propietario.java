@@ -1,5 +1,6 @@
 package co.edu.uniquindio.transporte.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Propietario {
         this.edad = edad;
     }
 
+    // Getters y setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getNumeroIdentificacion() { return numeroIdentificacion; }
@@ -42,3 +44,4 @@ public class Propietario {
                 '}';
     }
 }
+
