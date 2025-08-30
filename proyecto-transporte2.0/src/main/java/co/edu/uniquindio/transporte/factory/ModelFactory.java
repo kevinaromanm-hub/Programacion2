@@ -115,17 +115,29 @@ public class ModelFactory implements IModelFactoryServices {
     public List<Propietario> listarPropietarios() { return empresa.listarPropietarios(); }
 
     // === Vehículos de carga ===
-    @Override public boolean agregarVehiculoCarga(VehiculoCarga vehiculo) { return empresa.agregarVehiculoCarga(vehiculo); }
-    @Override public VehiculoCarga obtenerVehiculoCarga(String placa) { return empresa.obtenerVehiculoCarga(placa); }
-    @Override public boolean actualizarVehiculoCarga(String placaActual, String placa, String modelo, String marca, String color, double capacidadCarga, int numeroEjes) {
+    @Override public boolean agregarVehiculoCarga(VehiculoCarga vehiculo)
+    {
+        return empresa.agregarVehiculoCarga(vehiculo); }
+
+    @Override public VehiculoCarga obtenerVehiculoCarga(String placa)
+    {
+        return empresa.obtenerVehiculoCarga(placa); }
+
+    @Override public boolean actualizarVehiculoCarga(String placaActual, String placa, String modelo, String marca,
+                                                     String color, double capacidadCarga, int numeroEjes)
+    {
         return empresa.actualizarVehiculoCarga(placaActual, placa, modelo, marca, color, capacidadCarga, numeroEjes);
     }
-    @Override public boolean eliminarVehiculoCarga(String placa) { return empresa.eliminarVehiculoCarga(placa); }
-    @Override public List<VehiculoCarga> listarVehiculosCarga() { return empresa.listarVehiculosCarga(); }
+    @Override public boolean eliminarVehiculoCarga(String placa)
+    { return empresa.eliminarVehiculoCarga(placa); }
+    @Override public List<VehiculoCarga> listarVehiculosCarga()
+    { return empresa.listarVehiculosCarga(); }
 
     // === Vehículos de pasajeros ===
-    @Override public boolean agregarVehiculoPasajero(VehiculoPasajero vehiculo) { return empresa.agregarVehiculoPasajero(vehiculo); }
-    @Override public VehiculoPasajero obtenerVehiculoPasajero(String placa) { return empresa.obtenerVehiculoPasajero(placa); }
+    @Override public boolean agregarVehiculoPasajero(VehiculoPasajero vehiculo)
+    { return empresa.agregarVehiculoPasajero(vehiculo); }
+    @Override public VehiculoPasajero obtenerVehiculoPasajero(String placa)
+    { return empresa.obtenerVehiculoPasajero(placa); }
     @Override public boolean actualizarVehiculoPasajero(String placaActual, String placa, String modelo, String marca, String color, int numeroMaximoPasajeros) {
         return empresa.actualizarVehiculoPasajero(placaActual, placa, modelo, marca, color, numeroMaximoPasajeros);
     }
@@ -133,12 +145,17 @@ public class ModelFactory implements IModelFactoryServices {
     @Override public List<VehiculoPasajero> listarVehiculosPasajero() { return empresa.listarVehiculosPasajero(); }
 
     // === Asociación y consultas ===
-    @Override public boolean asociarVehiculoAPropietario(String idPropietario, String placaVehiculo) { return empresa.asociarVehiculoAPropietario(idPropietario, placaVehiculo); }
-    @Override public List<Propietario> propietariosPorPeso(double pesoMinimo) { return empresa.propietariosPorPeso(pesoMinimo); }
-    @Override public int pasajerosPorVehiculo(String placa) { return empresa.pasajerosPorVehiculo(placa); }
+    @Override public boolean asociarVehiculoAPropietario(String idPropietario, String placaVehiculo)
+    { return empresa.asociarVehiculoAPropietario(idPropietario, placaVehiculo); }
+    @Override public List<Propietario> propietariosPorPeso(double pesoMinimo)
+    { return empresa.propietariosPorPeso(pesoMinimo); }
+    @Override public int pasajerosPorVehiculo(String placa)
+    { return empresa.pasajerosPorVehiculo(placa); }
     @Override public int contarPropietariosMayores40() { return empresa.contarPropietariosMayores40(); }
 
     // === Búsquedas ===
-    @Override public String buscarPropietarioNombre(String nombre) { return empresa.buscarPropietarioNombre(nombre); }
-    @Override public String buscarVehiculoPorPlaca(String placa) { return empresa.buscarVehiculoPorPlaca(placa); }
+    @Override public String buscarPropietarioNombre(String nombre)
+    { return empresa.buscarPropietarioNombre(nombre); }
+    @Override public String buscarVehiculoPorPlaca(String placa)
+    { return empresa.buscarVehiculoPorPlaca(placa); }
 }

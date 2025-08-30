@@ -8,7 +8,7 @@ public class PropietarioBuilder {
     private String numeroIdentificacion;
     private String email;
     private String numeroCelular;
-    private int edad; // 0 significa no definido
+    private int edad;
 
     public PropietarioBuilder() {
     }
